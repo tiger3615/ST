@@ -1,0 +1,77 @@
+.box{
+	position:absolute; left:50px; 
+	top:-490px; 
+	padding:0px; 
+	width:60px; 
+	height:460px; 
+	background:#f0f3f9; font-size:12px; 
+	background:url(./resource/image/shiguanbody60.png);
+}
+.draggable{
+	position:absolute;  background:white;
+	width:80px; top:20px; 
+	height:60px; left:-10px;
+	background:url(./resource/image/waterTop60.png) 10px center  no-repeat;
+}
+.showValume{
+	text-align:center; 
+	font-size:30px;
+	position:absolute;
+	width:86px;
+	height:40px; 
+	top:-60px;
+	left:-10px;
+	font-weight:bold;
+	-moz-box-shadow:2px 2px 4px #666666; 
+	-webkit-box-shadow:2px 2px 4px #666666;
+	border:1px solid #666666;
+    border-radius: 5px;
+}
+.shiguanTop{
+	position:absolute;width:60px;height:40px; top:-9px; background:url(./resource/image/shiguantop60.png) no-repeat;
+}
+.waterBody{
+	position:absolute;width:60px;height:380px;top:76px; background:url(./resource/image/waterBody60.png);
+}
+.showTime{
+	text-align:center; 
+	font-size:30px;
+	position:absolute;
+	width:86px;
+	height:40px; 
+	top:10px;
+	left:-10px;
+	font-weight:bold;
+	-moz-box-shadow:2px 2px 4px #666666; 
+	-webkit-box-shadow:2px 2px 4px #666666;
+	border:1px solid #666666;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.waterBottom{
+	position:absolute;
+	width:60px;
+	height:165px;
+	top:455px;
+	background:url(./resource/image/waterbottom60.png);
+}
+.waterDrop{
+	position:absolute;width:60px;height:30px;top:620px; background:url(./resource/image/drop.png);
+}
+
+.hbox{
+	background:url(./resource/image/timetable.png);position:absolute;top:550px; padding:0px; margin:0px; width:920px; height:60px; 
+}
+.batteryContainer{
+	z-index:1;left:750px;top:0px;width:120px; height:40px; position:absolute;background:url(./resource/image/batteryGround.png)
+}
+.batteryVolume{
+	background-color:#11cc11;left:5px;top:4px;width:100px; height:30px; position:absolute;
+}
+.batteryVolumeNum{
+	left:130px;top:0px;width:30px; height:30px; position:absolute;
+}
+.waterAlarm{
+	left:710px;top:6px;width:19px; height:30px; position:absolute;background:url(./resource/image/waterdrop1.gif)
+}

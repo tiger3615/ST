@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <script type="text/javascript">
+        document.write('<meta name="viewport" content="width=device-width,initial-scale='+(window.screen.width/960.0)+',minimum-scale='+(window.screen.width/960.0)+',maximum-scale='+(window.screen.width/960.0)+',user-scalable=no">');
+    </script>
+<link rel="stylesheet" href="./resource/css/jquery.mobile-1.4.5.css">
+<style type="text/css">
+
+.box{
+	position:absolute; left:50px; 
+	top:-490px; 
+	padding:0px; 
+	width:60px; 
+	height:460px; 
+	background:#f0f3f9; font-size:12px; 
+	background:url(./resource/image/shiguanbody60.png);
+}
+.draggable{
+	position:absolute;  background:white;
+	width:80px; top:20px; 
+	height:60px; left:-10px;
+	background:url(./resource/image/waterTop60.png) 10px center  no-repeat;
+}
+.showValume{
+	text-align:center; 
+	font-size:30px;
+	position:absolute;
+	width:120px;
+	height:40px; 
+	top:-60px;
+	left:-10px;
+	font-weight:bold;
+	-moz-box-shadow:2px 2px 4px #666666; 
+	-webkit-box-shadow:2px 2px 4px #666666;
+	border:1px solid #666666;
+    border-radius: 5px;
+}
+.shiguanTop{
+	position:absolute;width:60px;height:40px; top:-9px; background:url(./resource/image/shiguantop60.png) no-repeat;
+}
+.waterBody{
+	position:absolute;width:60px;height:380px;top:76px; background:url(./resource/image/waterBody60.png);
+}
+.showTime{
+	text-align:center; 
+	font-size:30px;
+	position:absolute;
+	width:86px;
+	height:40px; 
+	top:10px;
+	left:-10px;
+	font-weight:bold;
+	-moz-box-shadow:2px 2px 4px #666666; 
+	-webkit-box-shadow:2px 2px 4px #666666;
+	border:1px solid #666666;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.days{
+	text-align:center;
+	font-size:30px;
+	position:absolute;
+	width:130px;
+	height:30px;
+	top:100px;
+	left:-30px;
+	font-weight:bold;
+	padding:5px;
+	-moz-box-shadow:2px 2px 4px #666666;
+	-webkit-box-shadow:2px 2px 4px #666666;
+	border:1px solid #666666;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color:#ffffff;
+}
+
+.waterBottom{
+	position:absolute;
+	width:60px;
+	height:165px;
+	top:455px;
+	background:url(./resource/image/waterbottom60.png);
+}
+.waterDrop{
+	position:absolute;width:60px;height:30px;top:620px; background:url(./resource/image/drop.png);
+}
+.waterNoDrop{
+	position:absolute;width:60px;height:30px;top:620px; background:url(./resource/image/drop.png);
+}
+.hbox{
+	background:url(./resource/image/timetable.png);position:absolute;top:550px; padding:0px; margin:0px; width:920px; height:60px; 
+}
+.batteryContainer{
+	z-index:1;left:750px;top:0px;width:120px; height:40px; position:absolute;background:url(./resource/image/batteryGround.png)
+}
+.batteryVolume{
+	background-color:#11cc11;left:5px;top:4px;width:100px; height:30px; position:absolute;
+}
+.batteryVolumeNum{
+	left:130px;top:0px;width:30px; height:30px; position:absolute;
+}
+.waterAlarm{
+	left:630px;top:6px;width:19px; height:30px; position:absolute;background:url(./resource/image/waterdrop1.gif);
+}
+.timeStyle{
+	font-size:35px;left:660px;top:0px;width:90px; height:30px; position:absolute;
+}
+.btn{
+    font-size:40px;
+    padding:10px 0px 10px 0px;
+    width:160px;
+}
+.btn2{
+    font-size:40px;
+    padding:10px 0px 10px 0px;
+}
+.btn3{
+    width:200px;
+    font-size:40px;
+    padding:10px 0px 10px 0px;
+}
+
+.btn4{
+    width:300px;
+    font-size:40px;
+    padding:10px 0px 10px 0px;
+}
+.moveBG{
+    background-position:0px -145px !important;
+}
+.BG{
+    background:url('./resource/image/holdBtn.png');
+    width:150px;
+    height:145px;
+}
+</style>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).bind('mobileinit',function(){
+            $.mobile.pushStateEnabled = false;
+        });
+    </script>
+    <script type="text/javascript" src="./js/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" src="./js/oop.js"></script>
+    <script type="text/javascript" src="./js/zxx.drag.1.0.js"></script>
+    <script type="text/javascript">
+        G.lang=ble.getLang();
+    </script>
+</head>
+
+<body style="margin:0px;padding:0px;font-size:33px;">
+
+<div style="background-color:#ffffff; z-index:1;width:960px; height:900px; position:relative; overflow:hidden;">
+	<div style="width:950px; top:5px; min-height:40px; overflow:hidden; position:relative;margin: 0 auto;">
+		<div id="msg" style="font-size:25px; left:10px;top:0px;width:600px; min-height:30px; position:relative;">
+        </div>
+        <div id="version" style="font-size:25px; left:10px;top:0px;width:200px; min-height:30px; position:relative;">
+        </div>
+		<div id="waterAlarm">
+		</div>
+		<div id="time" class="timeStyle">
+		</div>
+		<div id="battery">
+		</div>
+	</div>
+	<div id="pipeSettingPanel" style="width:4000px; height:720px; top:10px; position:relative;border:0px solid grey">
+		<div id="pipe1" class="hbox" style="left:10px;">
+			<font style="position:absolute;left:400px;top:-300px;font-weight:bold;" size="80px">
+                <script type="text/javascript">
+                    document.write(G.getText("pipe1"));
+                </script>
+            </font>
+			<div id="pipe1Vol1">
+			</div>
+			<div id="pipe1Vol2">
+			</div>
+		</div>
+		<div id="pipe2" class="hbox" style="left:1010px;">
+			<font style="position:absolute;left:400px;top:-300px;font-weight:bold;" size="80px">
+                <script type="text/javascript">
+                    document.write(G.getText("pipe2"));
+                </script>
+            </font>
+			<div id="pipe2Vol1">
+			</div>
+			<div id="pipe2Vol2">
+			</div>
+		</div>
+		<div id="pipe3" class="hbox" style="left:2010px;">
+			<font style="position:absolute;left:400px;top:-300px;font-weight:bold;" size="80px">
+                <script type="text/javascript">
+                    document.write(G.getText("pipe3"));
+                </script>
+            </font>
+			<div id="pipe3Vol1">
+			</div>
+			<div id="pipe3Vol2">
+			</div>
+		</div>
+		<div id="pipe4" class="hbox" style="left:3010px;">
+			<font style="position:absolute;left:400px;top:-300px;font-weight:bold;" size="80px">
+                <script type="text/javascript">
+                    document.write(G.getText("pipe4"));
+                </script>
+            </font>
+			<div id="pipe4Vol1">
+			</div>
+			<div id="pipe4Vol2">
+			</div>
+		</div>
+	</div>
+    <div style="border:1px solid grey;width:500px;height:60px;position:relative;left:200px;top:20px;background:url(./resource/image/pipetable.png);border-radius: 5px;">
+        <div id="btn1" style="border:0px solid red;position:relative;top:0px;width:102px;height:50px;padding-top:10px;padding-left:20px;font-weight:bold;">
+            <script type="text/javascript">
+                document.write(G.getText("pipe1"));
+            </script>
+        </div>
+        <div id="btn2" style="border:0px solid red;position:absolute;left:126px;top:0px;width:102px;height:50px;padding-top:10px;padding-left:20px;font-weight:bold;">
+            <script type="text/javascript">
+                document.write(G.getText("pipe2"));
+            </script>
+        </div>
+        <div id="btn3" style="border:0px solid red;position:absolute;left:252px;top:0px;width:102px;height:50px;padding-top:10px;padding-left:20px;font-weight:bold;">
+            <script type="text/javascript">
+                document.write(G.getText("pipe3"));
+            </script>
+        </div>
+        <div id="btn4" style="border:0px solid red;position:absolute;left:378px;top:0px;width:102px;height:50px;padding-top:10px;padding-left:20px;font-weight:bold;">
+            <script type="text/javascript">
+                document.write(G.getText("pipe4"));
+            </script>
+        </div>
+        <div id="dragBtn" style="width:125px;height:80px;position:absolute;left:0px;top:-10px;background:url(./resource/image/pipeTableDrag.png);"></div>
+    </div>
+</div>
+
+<div id="bottomPannel" style="background-color:#ffffff;z-index:0;width:950px;height:580px;top:-410px; position:relative;transition-duration: 1s;
+    transition-property: top;
+    transition-timing-function: ease;
+    transition-delay: 0s;">
+	<div id="pad" style="border:0px solid blue;left:280px;width:400px;height:400px;position:absolute;background:url(./resource/image/rollpad.png);">
+		<div id="collapse" style="border-radius: 5px;border:1px solid grey; top:180px;left:140px;width:120px;text-align:center;height:40px;position:absolute;padding:5px;">
+            <script type="text/javascript">
+                document.write(G.getText("collapse"));
+            </script>
+        </div>
+	</div>
+    <div style="border:0px solid blue;width:200px;height:50px;position:absolute;left:50px;top:420px;">
+        <script type="text/javascript">
+            document.write('<input id="hosts" data-wrapper-class="btn3" type="button" value="'+G.getText("bindHost")+'"/>');
+        </script>
+    </div>
+	<div style="border:0px solid blue;width:200px;height:50px;position:absolute;left:290px;top:420px;">
+        <script type="text/javascript">
+            document.write('<input id="reset" data-wrapper-class="btn" type="button" value="'+G.getText("read")+'"/>');
+        </script>
+    </div>
+	<div style="border:0px solid blue;width:200px;height:50px;position:absolute;left:495px;top:420px;">
+        <script type="text/javascript">
+            document.write('<input id="save" data-wrapper-class="btn" type="button" value="'+G.getText("save")+'"/>');
+        </script>
+    </div>
+    <div style="border:0px solid blue;width:300px;height:50px;position:absolute;left:700px;top:420px;">
+        <script type="text/javascript">
+            document.write('<input id="calibrate" data-wrapper-class="btn3" type="button" value="'+G.getText("others")+'"/>');
+        </script>
+    </div>
+    <div style="word-wrap: break-word;border:0px solid blue;width:500px;height:30px;position:absolute;left:10px;top:540px;">
+        cat555666@126.com Eric
+    </div>
+    <div style="word-wrap: break-word;border:0px solid blue;width:200px;height:30px;position:absolute;left:580px;top:540px;text-align:right;">
+        <span id="runDays">1000</span>
+        <script type="text/javascript">
+            document.write(G.getText("days"));
+        </script>
+    </div>
+	<div style="word-wrap: break-word;border:0px solid blue;width:200px;height:30px;position:absolute;left:800px;top:540px;">ver. 1.9</div>
+</div>
+<div id="dialog_shade" style="z-index:1;border:0px solid blue;padding:0;width:960px;height:1460px;position:absolute;left:0px;top:0px;background-color:gray;display:none;filter:alpha(opacity=50);-moz-opacity:0.50;opacity:0.50;">
+</div>
+<div id="dialog" style="z-index:2;border:0px solid blue;width:800px;height:900px;position:absolute;left:90px;top:200px;background-color:white;display:none;overflow:auto;-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;">
+    <div style="border:0px solid blue;width:50px;height:50px;position:absolute;left:740px;top:8px;">
+        <img src="./resource/image/Close-icon.png" id="inner_close" style="width:50px;height:50px;"/>
+    </div>
+    <div style="width:700px;height:330px;border:1px solid blue;-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;position:absolute;left:50px;top:80px;">
+        <div style="top:10px;left:10px;width:250px;height:40px;position:absolute;text-align:left;">
+            <b><script type="text/javascript">
+                document.write(G.getText("calibrate"));
+            </script></b>
+        </div>
+        <div style="top:60px;left:140px;width:200px;height:40px;position:absolute;text-align:right;">
+            <script type="text/javascript">
+            document.write(G.getText("settingMl"));
+        </script>
+        </div>
+        <div style="top:30px;left:370px;width:120px;height:40px;position:absolute;">
+            <input type="number" id="setValue"/>
+        </div>
+        <div style="top:150px;left:140px;width:200px;height:40px;position:absolute;text-align:right;">
+            <script type="text/javascript">
+            document.write(G.getText("actualMl"));
+        </script>
+        </div>
+        <div style="top:120px;left:370px;width:120px;height:40px;position:absolute;">
+            <input type="number" id="actualValue"/>
+        </div>
+        <div style="border:0px solid blue;width:300px;height:50px;position:absolute;left:200px;top:210px;">
+            <script type="text/javascript">
+            document.write('<input id="inner_save" data-wrapper-class="btn4" type="button" value="'+G.getText("calibrate")+'"/>');
+        </script>
+        </div>
+    </div>
+    <div style="width:700px;height:330px;border:1px solid blue;-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;position:absolute;left:50px;top:450px;">
+        <div style="top:10px;left:10px;width:150px;height:40px;position:absolute;text-align:left;">
+            <b><script type="text/javascript">
+                document.write(G.getText("test"));
+            </script></b>
+        </div>
+        <div id="testBtn1" class="BG" style="border:0px solid blue;position:absolute;left:10px;top:80px;text-align:center;-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;">
+            <br/>
+            <b><script type="text/javascript">
+                document.write(G.getText("pipe1"));
+            </script></b>
+        </div>
+        <div id="testBtn2" class="BG" style="border:0px solid blue;position:absolute;left:187px;top:80px;text-align:center;-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;">
+            <br/>
+            <b><script type="text/javascript">
+                document.write(G.getText("pipe2"));
+            </script></b>
+        </div>
+        <div id="testBtn3" class="BG" style="border:0px solid blue;position:absolute;left:363px;top:80px;text-align:center;-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;">
+            <br/>
+            <b><script type="text/javascript">
+                document.write(G.getText("pipe3"));
+            </script></b>
+        </div>
+        <div id="testBtn4" class="BG" style="border:0px solid blue;position:absolute;left:540px;top:80px; text-align:center;-webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;" >
+            <br/>
+            <b><script type="text/javascript">
+                document.write(G.getText("pipe4"));
+            </script></b>
+        </div>
+    </div>
+</div>
+<div id="dialog_mac" style="z-index:2;border:0px solid blue;width:800px;height:550px;position:absolute;left:90px;top:400px;background-color:white;display:none;-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;">
+    <div style="border:0px solid blue;width:50px;height:50px;position:absolute;left:740px;top:8px;">
+        <img src="./resource/image/Close-icon.png" id="inner_close_mac" style="width:50px;height:50px;"/>
+    </div>
+    <div style="width:700px;height:400px;border:1px solid blue;-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;position:absolute;left:50px;top:80px;">
+        <div style="top:50px;left:180px;width:200px;height:40px;position:absolute;text-align:right;">
+            <script type="text/javascript">
+            document.write(G.getText("hostCode"));
+        </script>
+        </div>
+        <div style="top:20px;left:390px;width:120px;height:40px;position:absolute;">
+            <input type="text" id="setMac"/>
+        </div>
+        <div style="top:125px;left:144px;width:510px;height:100px;position:absolute;">
+            <script type="text/javascript">
+            document.write(G.getText("msgOfBindHost"));
+        </script>
+        </div>
+        <div style="border:0px solid blue;width:300px;height:50px;position:absolute;left:280px;top:280px;">
+            <script type="text/javascript">
+            document.write('<input id="inner_save_mac" data-wrapper-class="btn" type="button" value="'+G.getText("save")+'"/>');
+        </script>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	var rollpad=new ODD({
+		draggable:"#pad"
+	});
+
+	pipe1Vol1=new VDD({
+		renderTo:"#pipe1Vol1",
+		rollpad:rollpad
+	});
+	pipe1Time1=new HDD({
+		vdd:pipe1Vol1,
+		container:"#pipe1",
+		rollpad:rollpad
+	});
+	
+	pipe1Vol2=new VDD({
+		renderTo:"#pipe1Vol2",
+		rollpad:rollpad
+	});
+	pipe1Time2=new HDD({
+		vdd:pipe1Vol2,
+		container:"#pipe1",
+		rollpad:rollpad
+	});
+	//-------------------
+	pipe2Vol1=new VDD({
+		renderTo:"#pipe2Vol1",
+		rollpad:rollpad
+	});
+	pipe2Time1=new HDD({
+		vdd:pipe2Vol1,
+		container:"#pipe2",
+		rollpad:rollpad
+	});
+	
+	pipe2Vol2=new VDD({
+		renderTo:"#pipe2Vol2",
+		rollpad:rollpad
+	});
+	pipe2Time2=new HDD({
+		vdd:pipe2Vol2,
+		container:"#pipe2",
+		rollpad:rollpad
+	});
+	//-------------
+	pipe3Vol1=new VDD({
+		renderTo:"#pipe3Vol1",
+		rollpad:rollpad
+	});
+	pipe3Time1=new HDD({
+		vdd:pipe3Vol1,
+		container:"#pipe3",
+		rollpad:rollpad
+	});
+	
+	pipe3Vol2=new VDD({
+		renderTo:"#pipe3Vol2",
+		rollpad:rollpad
+	});
+	pipe3Time2=new HDD({
+		vdd:pipe3Vol2,
+		container:"#pipe3",
+		rollpad:rollpad
+	});
+	//-------------
+	pipe4Vol1=new VDD({
+		renderTo:"#pipe4Vol1",
+		rollpad:rollpad
+	});
+	pipe4Time1=new HDD({
+		vdd:pipe4Vol1,
+		container:"#pipe4",
+		rollpad:rollpad
+	});
+	
+	pipe4Vol2=new VDD({
+		renderTo:"#pipe4Vol2",
+		rollpad:rollpad
+	});
+	pipe4Time2=new HDD({
+		vdd:pipe4Vol2,
+		container:"#pipe4",
+		rollpad:rollpad
+	});
+	new HDDBtns({
+		draggable:"#dragBtn",
+		callback:function(left){
+			$("#pipeSettingPanel").css("left",(-left*8)+"px");
+			rollpad.releaseOther();
+		}
+	});
+	
+	oBattery=new Battery({
+		target:"#battery"
+	});
+	oBattery.setBettery(0);
+	
+	oWaterAlarm=new WaterAlarm({
+		target:"#waterAlarm"
+	});
+	oWaterAlarm.show(false);
+
+	$("#hosts").on("vclick",function(){
+	    $("#setMac").val(ble.getTargetMac());
+        $("#dialog_mac").show();
+        $("#dialog_shade").show();
+	});
+	$("#calibrate").on("vclick",function(){
+        $("#dialog").show();
+        $("#dialog_shade").show();
+	});
+	$("#inner_save_mac").on("vclick",function(){
+	    var macStr=$("#setMac").val();
+	    if(/\w{4}/.test(macStr)){
+            ble.setTargetMac(macStr);
+            $("#dialog_mac").hide();
+            $("#dialog_shade").hide();
+	    }
+	});
+	$("#inner_save").on("vclick",function(){
+        var setValue=$("#setValue").val();
+	    var actualValue=$("#actualValue").val();
+	    if(!setValue || !actualValue || !/\d/.test(setValue) || !/\d/.test(actualValue) || parseInt(setValue)==0 || parseInt(actualValue)==0){
+	        return;
+	    }
+	    $.mobile.loading( "show", {
+		  text: G.getText("calibrating"),
+		  textVisible: true,
+		  theme: "z",
+		  html: ""
+		});
+		G.callTimes=1;
+		window.setTimeout(function(){
+		    ble.wakeup();
+		    callAgainFn=function(){
+		        ble.wakeup();
+		        ble.send("^calibrate+"+setValue+","+actualValue+"$");
+		    }
+		    window.clearTimeout(secondTimeoutSeed);
+		    secondTimeoutSeed=window.setTimeout(function(){
+                if(callAgainFn){
+                    callAgainFn();
+                    callAgainFn=null;
+                }
+            },2500);
+            doneCallback=function(){
+                window.clearTimeout(secondTimeoutSeed);
+            }
+            ble.send("^calibrate+"+setValue+","+actualValue+"$");
+		},10);
+	});
+	$("#inner_close").on("vclick",function(){
+        $("#dialog").hide();
+        $("#dialog_shade").hide();
+	});
+	$("#inner_close_mac").on("vclick",function(){
+        $("#dialog_mac").hide();
+        $("#dialog_shade").hide();
+	});
+
+	$("#reset").on("vclick",function(){
+        $.mobile.loading( "show", {
+		  text: G.getText("reading"),
+		  textVisible: true,
+		  theme: "z",
+		  html: ""
+		});
+		G.callTimes=1;
+		window.setTimeout(function(){
+		    ble.wakeup();
+		    callAgainFn=function(){
+		        ble.wakeup();
+		        ble.send("^read$");
+		    }
+		    window.clearTimeout(secondTimeoutSeed);
+		    secondTimeoutSeed=window.setTimeout(function(){
+                if(callAgainFn){
+                    callAgainFn();
+                    callAgainFn=null;
+                }
+            },2500);
+            doneCallback=function(){
+                window.clearTimeout(secondTimeoutSeed);
+            }
+            ble.send("^read$");
+		},10);
+	});
+	
+	$("#save").on("vclick",function(){
+	 	$.mobile.loading( "show", {
+			text: G.getText("saving"),
+			textVisible: true,
+			theme: "z",
+			html: ""
+		});
+		G.callTimes=2;
+		window.setTimeout(function(){
+            ble.wakeup();
+            callAgainFn=function(){
+		        ble.wakeup();
+		        ble.send("^setIrrigation+"+tableAndVolumeToString()+"$");
+		    }
+		    window.clearTimeout(secondTimeoutSeed);
+		    secondTimeoutSeed=window.setTimeout(function(){
+                if(callAgainFn){
+                    callAgainFn();
+                    callAgainFn=null;
+                }
+            },2500);
+            doneCallback=function(){
+                window.clearTimeout(secondTimeoutSeed);
+                ble.delay(100);
+                ble.send("^setTime+"+currentTime()+"$");
+            }
+            ble.send("^setIrrigation+"+tableAndVolumeToString()+"$");
+        },10);
+	});
+	var downHandler=function(){
+	    var name=this.name;
+        window.setTimeout(function(){
+            ble.vibrate(80);
+            window.setTimeout(function(){
+                ble.wakeup();
+                if(name=="testBtn1"){
+                    ble.send("^runPipe1$");
+                }else if(name=="testBtn2"){
+                    ble.send("^runPipe2$");
+                }else if(name=="testBtn3"){
+                    ble.send("^runPipe3$");
+                }else if(name=="testBtn4"){
+                    ble.send("^runPipe4$");
+                }
+            },12);
+        },1);
+
+	}
+	var upHandler=function(){
+	    var name=this.name;
+        window.setTimeout(function(){
+            if(name=="testBtn1"){
+                ble.send("^stopPipe1$");
+             }else if(name=="testBtn2"){
+                ble.send("^stopPipe2$");
+             }else if(name=="testBtn3"){
+                ble.send("^stopPipe3$");
+             }else if(name=="testBtn4"){
+                ble.send("^stopPipe4$");
+             }
+        },200);
+	}
+    new HoldBtn({
+        name:"testBtn1",
+        target:"#testBtn1",
+        upHandler:upHandler,
+        downHandler:downHandler
+    });
+    new HoldBtn({
+        name:"testBtn2",
+        target:"#testBtn2",
+        upHandler:upHandler,
+        downHandler:downHandler
+    });
+    new HoldBtn({
+        name:"testBtn3",
+        target:"#testBtn3",
+        upHandler:upHandler,
+        downHandler:downHandler
+    });
+    new HoldBtn({
+        name:"testBtn4",
+        target:"#testBtn4",
+        upHandler:upHandler,
+        downHandler:downHandler
+    });
+});
+function currentTime(){
+	var d = new Date();
+	var hours=d.getHours();
+	var minutes=d.getMinutes();
+	var seconds=d.getSeconds();
+	var secondsTime=seconds+minutes*60+hours*3600;
+	return secondsTime;
+}
+function tableAndVolumeToString(){
+	var finalStr="";
+	for(var i=0;i<4;i++){
+        finalStr+=window["pipe"+(i+1)+"Time1"].getTime()+",";
+        finalStr+=window["pipe"+(i+1)+"Vol1"].getDaysValue()+",";
+        finalStr+=window["pipe"+(i+1)+"Vol1"].getValue()+";";
+        finalStr+=window["pipe"+(i+1)+"Time2"].getTime()+",";
+        finalStr+=window["pipe"+(i+1)+"Vol2"].getDaysValue()+",";
+        finalStr+=window["pipe"+(i+1)+"Vol2"].getValue()+".";
+	}
+	return finalStr.substring(0, finalStr.length-1);
+}
+function initTableAndVolume(setting){
+	var pipesString=setting.split(".");
+	for(var i=0;i<pipesString.length;i++){
+	    if(i<4){
+            var onePipeString=pipesString[i];
+            var timeDaysVolumes=onePipeString.split(";");
+            var timeDaysVolumes0=timeDaysVolumes[0].split(",");
+            var time0=timeDaysVolumes0[0];
+            var day0=timeDaysVolumes0[1];
+            var volume0=timeDaysVolumes0[2];
+            window["pipe"+(i+1)+"Time1"].setTime(time0);
+            window["pipe"+(i+1)+"Vol1"].setValue(parseInt(parseInt(volume0)));
+            window["pipe"+(i+1)+"Vol1"].setDaysValue(day0);
+            var timeDaysVolume1=timeDaysVolumes[1].split(",");
+            var time1=timeDaysVolume1[0];
+            var day1=timeDaysVolume1[1];
+            var volume1=timeDaysVolume1[2];
+            window["pipe"+(i+1)+"Time2"].setTime(time1);
+            window["pipe"+(i+1)+"Vol2"].setValue(parseInt(volume1));
+            window["pipe"+(i+1)+"Vol2"].setDaysValue(day1);
+	    }else if(i==4){
+	        var waterAlarm=pipesString[i];
+	        oWaterAlarm.show("y"==waterAlarm);
+		}else if(i==5){
+		    var battery=pipesString[i];
+		    oBattery.setBettery(battery);
+		}else if(i==6){
+		    var time=pipesString[i];
+		    time=parseInt(time);
+		    var runDays=Math.floor(time/86400);
+		    $("#runDays").html(runDays);
+		    time=time%86400;
+		    var hour=Math.floor(time/3600);
+		    if(hour<10){
+		    	hour="0"+hour;
+		    }
+		    var minute=Math.floor(time%3600/60);
+		    if(minute<10){
+		    	minute="0"+minute;
+		    }
+		    $("#time").html(hour+":"+minute);
+		}else if(i==7){
+		    var version=pipesString[i];
+		    $("#version").html(G.getText("hostVersion")+version);
+		}
+	}
+}
+var counter=0;
+var intervalSeed=setInterval(function(){
+	$("#msg").html(ble.getMessage());
+	var status=ble.getStatus();
+	if(status=="ready"){
+	    G.callTimes=1;
+	    clearInterval(intervalSeed);
+		ble.wakeup();
+		callAgainFn=function(){
+            ble.wakeup();
+            ble.send("^read$");
+        }
+		window.clearTimeout(secondTimeoutSeed);
+        secondTimeoutSeed=window.setTimeout(function(){
+            if(callAgainFn){
+                callAgainFn();
+                callAgainFn=null;
+            }
+        },2500);
+		ble.delay(500);
+		doneCallback=function(){
+            window.clearTimeout(secondTimeoutSeed);
+        }
+		ble.send("^read$");
+	}else if(status=="fail"){
+	    $.mobile.loading( "hide" );
+	}
+	if(counter++>100){
+	    clearInterval(intervalSeed);
+	}
+}, 100);
+var doneCallback;
+var callAgainFn;
+var secondTimeoutSeed=0;
+function feedback(feedbackStr){
+	window.feedbackStr=feedbackStr;
+	//$("#testMsg").html(feedbackStr);
+	if(doneCallback){
+        doneCallback();
+        doneCallback=null;
+    }
+	if(feedbackStr=="done"){
+
+	}else{
+		initTableAndVolume(window.feedbackStr);
+	}
+	if(--G.callTimes==0){
+	    $.mobile.loading( "hide" );
+	}
+}
+window.setTimeout(function(){
+    if(ble.getTargetMac()){
+        $.mobile.loading( "show", {
+            text: G.getText("reading"),
+            textVisible: true,
+            theme: "z",
+            textOnly: false,
+            html: ""
+        });
+        ble.scanBLE();
+    }else{
+        $("#dialog_mac").show();
+        $("#dialog_shade").show();
+    }
+},1);
+</script>
+</body>
+</html>
